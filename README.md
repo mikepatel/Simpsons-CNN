@@ -6,6 +6,12 @@
 ## Data
 * The dataset is composed of images of characters from The Simpsons
 
+## File descriptions
+* app.py
+* model.py
+* parameters.py
+* train.py
+
 ## Instructions
 * Instructions coming soon!
 

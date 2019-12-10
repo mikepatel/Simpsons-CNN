@@ -4,7 +4,7 @@
 * Trained using TensorFlow 2.0
 
 ## Data
-* The dataset is composed of images of characters from The Simpsons
+* The [dataset](https://github.com/mikepatel/Simpsons-CNN/tree/master/data) is composed of images of characters from The Simpsons
 
 ## File descriptions
 * [app.py](https://github.com/mikepatel/Simpsons-CNN/blob/master/app.py) To run the trained model

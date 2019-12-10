@@ -8,7 +8,7 @@
 
 ## File descriptions
 * **app.py** To run the trained model
-* **model.py** For define model definitions
+* **model.py** For model definitions
 * **parameters.py** For constants and model parameters
 * **train.py** For preprocessing and training algorithm
 

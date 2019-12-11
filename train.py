@@ -25,6 +25,7 @@ import cv2
 import tensorflow as tf
 
 from parameters import *
+from model import build_cnn
 
 
 ################################################################################

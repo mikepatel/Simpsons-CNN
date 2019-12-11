@@ -24,6 +24,8 @@ import cv2
 
 import tensorflow as tf
 
+from parameters import *
+
 
 ################################################################################
 # Main
@@ -41,8 +43,10 @@ if __name__ == "__main__":
 
     # ----- ETL ----- #
     # ETL = Extraction, Transformation, Load
-    images = []
-    labels = []
+    images_train = []
+    images_test = []
+    labels_train = []
+    labels_test = []
 
     # mapping between Simpsons character and a numeric categorial label
     char2num = {
@@ -50,9 +54,17 @@ if __name__ == "__main__":
         "Homer Simpson": 1
     }
 
+    # reverse mapping
+    num2char = {v: k for k, v in char2num.items()}
+
     for character in char2num:
         image_files_pattern = os.path.join(os.getcwd(), "data\\" + character) + "\\*.jpg"
         filenames = glob.glob(image_files_pattern)
+
+        # create temporary (images, labels) dataset, and then split into training and test
+        temp_images = []
+        temp_labels = []
+
         for f in filenames:
             # imageio: RGB
             #image = imageio.imread(f)
@@ -76,8 +88,40 @@ if __name__ == "__main__":
             #image = np.array(image)
             #Image.fromarray(image).show()
 
-            images.append(resized_image)
-            labels.append(char2num[character])
+            # (images as arrays, numeric categorical labels)
+            temp_images.append(np.array(resized_image))
+            temp_labels.append(char2num[character])
 
-    print(len(images))
-    print(len(labels))
+        # create temp training and test sets for each Simpsons character
+        split_idx = int(DATA_SPLIT_PERCENTAGE * len(temp_images))
+
+        temp_images_train = temp_images[:split_idx]
+        temp_images_test = temp_images[split_idx:]
+
+        temp_labels_train = temp_labels[:split_idx]
+        temp_labels_test = temp_labels[split_idx:]
+
+        # join temp training and test sets for each Simpsons character together
+        images_train = images_train + temp_images_train
+        images_test = images_test + temp_images_test
+
+        labels_train = labels_train + temp_labels_train
+        labels_test = labels_test + temp_labels_test
+
+    # normalizing data
+    images_train = np.array(images_train).astype("float32") / 255.
+    images_test = np.array(images_test).astype("float32") / 255.
+
+    labels_train = np.array(labels_train).astype("float32") / 255.
+    labels_test = np.array(labels_test).astype("float32") / 255.
+
+    # verify shape of data
+    print(f'Training images shape: {images_train.shape}')
+    print(f'Training labels shape: {labels_train.shape}')
+    print(f'Test images shape: {images_test.shape}')
+    print(f'Test labels shape: {labels_test.shape}')
+
+    # ----- MODEL ----- #
+
+    quit()
+

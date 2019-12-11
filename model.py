@@ -22,7 +22,7 @@ import tensorflow as tf
 def build_cnn(input_shape):
     m = tf.keras.Sequential()
 
-    # 1st stage
+    # ----- Stage 1 ----- #
     # Convulation
 
     # Convolution
@@ -31,7 +31,7 @@ def build_cnn(input_shape):
 
     # Dropout
 
-    # 2nd stage
+    # ----- Stage 2 ----- #
     # Convulation
 
     # Convolution
@@ -40,7 +40,7 @@ def build_cnn(input_shape):
 
     # Dropout
 
-    # 3rd stage
+    # ----- Stage 3 ----- #
     # Flatten
 
     # Dense

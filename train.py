@@ -57,6 +57,9 @@ if __name__ == "__main__":
     # reverse mapping
     num2char = {v: k for k, v in char2num.items()}
 
+    # number of output classes
+    num_classes = len(char2num)
+
     for character in char2num:
         image_files_pattern = os.path.join(os.getcwd(), "data\\" + character) + "\\*.jpg"
         filenames = glob.glob(image_files_pattern)
@@ -95,9 +98,11 @@ if __name__ == "__main__":
         # create temp training and test sets for each Simpsons character
         split_idx = int(DATA_SPLIT_PERCENTAGE * len(temp_images))
 
+        # split images
         temp_images_train = temp_images[:split_idx]
         temp_images_test = temp_images[split_idx:]
 
+        # split labels
         temp_labels_train = temp_labels[:split_idx]
         temp_labels_test = temp_labels[split_idx:]
 
@@ -120,6 +125,8 @@ if __name__ == "__main__":
     print(f'Training labels shape: {labels_train.shape}')
     print(f'Test images shape: {images_test.shape}')
     print(f'Test labels shape: {labels_test.shape}')
+
+    input_shape = (64, 64, 3)
 
     # ----- MODEL ----- #
 

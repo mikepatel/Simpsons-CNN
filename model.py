@@ -14,7 +14,12 @@ File description:
 """
 ################################################################################
 # Imports
+import tensorflow as tf
 
 
 ################################################################################
+# CNN
+def build_cnn(input_shape):
+    m = tf.keras.Sequential()
 
+    return m

@@ -23,7 +23,7 @@ def build_cnn(input_shape, num_classes):
     m = tf.keras.Sequential()
 
     # ----- Stage 1 ----- #
-    # Convulation
+    # Convolution
     m.add(tf.keras.layers.Conv2D(
         filters=32,
         kernel_size=[3, 3],
@@ -52,7 +52,7 @@ def build_cnn(input_shape, num_classes):
     ))
 
     # ----- Stage 2 ----- #
-    # Convulation
+    # Convolution
     m.add(tf.keras.layers.Conv2D(
         filters=64,
         kernel_size=[3, 3],
@@ -82,7 +82,7 @@ def build_cnn(input_shape, num_classes):
     # ----- Stage 3 ----- #
     # Convolution
     m.add(tf.keras.layers.Conv2D(
-        units=256,
+        filters=256,
         kernel_size=[3, 3],
         padding="same",
         activation=tf.keras.activations.relu

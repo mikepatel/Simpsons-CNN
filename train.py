@@ -20,7 +20,6 @@ from datetime import datetime
 import glob  # module to find all pathnames matching a specified pattern
 import imageio
 from PIL import Image
-import cv2
 
 import tensorflow as tf
 
@@ -130,6 +129,12 @@ if __name__ == "__main__":
     input_shape = (64, 64, 3)
 
     # ----- MODEL ----- #
-
-    quit()
+    # train model
+    model = build_cnn(input_shape=input_shape, num_classes=num_classes)
+    model.compile(
+        loss=tf.keras.losses.sparse_categorical_crossentropy,
+        optimizer=tf.keras.optimizers.Adam(),
+        metrics=["accuracy"]
+    )
+    model.summary()
 

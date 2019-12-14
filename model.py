@@ -80,12 +80,40 @@ def build_cnn(input_shape, num_classes):
     ))
 
     # ----- Stage 3 ----- #
+    # Convolution
+    m.add(tf.keras.layers.Conv2D(
+        units=256,
+        kernel_size=[3, 3],
+        padding="same",
+        activation=tf.keras.activations.relu
+    ))
+
+    # Convolution
+    m.add(tf.keras.layers.Conv2D(
+        filters=256,
+        kernel_size=[3, 3],
+        padding="same",
+        activation=tf.keras.activations.relu
+    ))
+
+    # Max Pooling
+    m.add(tf.keras.layers.MaxPool2D(
+        pool_size=[2, 2],
+        strides=2
+    ))
+
+    # Dropout
+    m.add(tf.keras.layers.Dropout(
+        rate=0.25
+    ))
+
+    # ----- Stage 4 ----- #
     # Flatten
     m.add(tf.keras.layers.Flatten())
 
     # Dense
     m.add(tf.keras.layers.Dense(
-        units=512,
+        units=1024,
         activation=tf.keras.activations.relu
     ))
 

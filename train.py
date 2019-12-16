@@ -139,12 +139,11 @@ if __name__ == "__main__":
     model.summary()
 
     # callbacks --> TensorBoard, save weights
-    history_file = output_dir + "\\cnn_tf_keras_mnist.h5"
+    history_file = output_dir + "\\checkpoints.h5"
     save_callback = tf.keras.callbacks.ModelCheckpoint(
         filepath=history_file,
-        verbose=1,
         save_weights_only=True,
-        period=CHECKPOINT_PERIOD
+        save_freq=CHECKPOINT_PERIOD
     )
     tb_callback = tf.keras.callbacks.TensorBoard(log_dir=output_dir)
 
@@ -154,7 +153,7 @@ if __name__ == "__main__":
         y=labels_train,
         batch_size=BATCH_SIZE,
         epochs=NUM_EPOCHS,
+        steps_per_epoch=images_train.shape[0] // BATCH_SIZE,
         validation_data=(images_test, labels_test),
-        callbacks=[save_callback, tb_callback],
-        verbose=1
+        callbacks=[save_callback, tb_callback]
     )

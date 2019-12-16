@@ -20,6 +20,7 @@ from datetime import datetime
 import glob  # module to find all pathnames matching a specified pattern
 import imageio
 from PIL import Image
+import matplotlib.pyplot as plt
 
 import tensorflow as tf
 
@@ -114,11 +115,11 @@ if __name__ == "__main__":
         labels_test = labels_test + temp_labels_test
 
     # normalizing data
-    images_train = np.array(images_train).astype("float32") / 255.
-    images_test = np.array(images_test).astype("float32") / 255.
+    images_train = np.array(images_train).astype(np.float32) / 255.0
+    images_test = np.array(images_test).astype(np.float32) / 255.0
 
-    labels_train = np.array(labels_train).astype("float32") / 255.
-    labels_test = np.array(labels_test).astype("float32") / 255.
+    labels_train = np.array(labels_train).astype(np.float32) / 255.0
+    labels_test = np.array(labels_test).astype(np.float32) / 255.0
 
     # verify shape of data
     print(f'Training images shape: {images_train.shape}')
@@ -127,6 +128,15 @@ if __name__ == "__main__":
     print(f'Test labels shape: {labels_test.shape}')
 
     input_shape = (64, 64, 3)
+
+    """
+    # convert from array to image
+    x = images_train[2000]
+    x = x * 255
+    x = x.astype(np.uint8)
+    Image.fromarray(x).show()
+    quit()
+    """
 
     # ----- MODEL ----- #
     # train model
@@ -139,9 +149,10 @@ if __name__ == "__main__":
     model.summary()
 
     # callbacks --> TensorBoard, save weights
-    history_file = output_dir + "\\checkpoints.h5"
+    history_file = output_dir + "\\cnn_train.hdf5"
     save_callback = tf.keras.callbacks.ModelCheckpoint(
         filepath=history_file,
+        monitor="val_acc",
         save_weights_only=True,
         save_freq=CHECKPOINT_PERIOD
     )
@@ -154,6 +165,25 @@ if __name__ == "__main__":
         batch_size=BATCH_SIZE,
         epochs=NUM_EPOCHS,
         steps_per_epoch=images_train.shape[0] // BATCH_SIZE,
-        validation_data=(images_test, labels_test),
-        callbacks=[save_callback, tb_callback]
+        validation_data=(images_test, labels_test)
+        #callbacks=[save_callback, tb_callback]
     )
+
+    # plot accuracy
+    plt.plot(history.history["accuracy"], label="accuracy")
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy")
+    plt.ylim([0.0, 1.0])
+    plt.legend(loc="lower_right")
+    plt.show()
+    quit()
+
+    # save model weights
+    model.save_weights(output_dir + "\\last_checkpoint")
+
+    # load model weights
+    #model.load_weights(output_dir + "\\last_checkpoint")
+
+    # evaluate model
+    #loss, accuracy = model.evaluate(images_test, labels_test)
+    #print(f'Evalution accuracy: {accuracy:.4f}')

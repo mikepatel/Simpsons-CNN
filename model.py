@@ -28,7 +28,7 @@ def build_cnn(input_shape, num_classes):
         filters=32,
         kernel_size=[3, 3],
         input_shape=input_shape,
-        padding="same",
+        #padding="same",
         activation=tf.keras.activations.relu
     ))
 
@@ -36,19 +36,19 @@ def build_cnn(input_shape, num_classes):
     m.add(tf.keras.layers.Conv2D(
         filters=32,
         kernel_size=[3, 3],
-        padding="same",
+        #padding="same",
         activation=tf.keras.activations.relu
     ))
 
     # Max Pooling
     m.add(tf.keras.layers.MaxPool2D(
-        pool_size=[2, 2],
-        strides=2
+        pool_size=[2, 2]
+        #strides=2
     ))
 
     # Dropout
     m.add(tf.keras.layers.Dropout(
-        rate=0.25
+        rate=0.2
     ))
 
     # ----- Stage 2 ----- #
@@ -56,7 +56,7 @@ def build_cnn(input_shape, num_classes):
     m.add(tf.keras.layers.Conv2D(
         filters=64,
         kernel_size=[3, 3],
-        padding="same",
+        #padding="same",
         activation=tf.keras.activations.relu
     ))
 
@@ -64,19 +64,19 @@ def build_cnn(input_shape, num_classes):
     m.add(tf.keras.layers.Conv2D(
         filters=64,
         kernel_size=[3, 3],
-        padding="same",
+        #padding="same",
         activation=tf.keras.activations.relu
     ))
 
     # Max Pooling
     m.add(tf.keras.layers.MaxPool2D(
-        pool_size=[2, 2],
-        strides=2
+        pool_size=[2, 2]
+        #strides=2
     ))
 
     # Dropout
     m.add(tf.keras.layers.Dropout(
-        rate=0.25
+        rate=0.2
     ))
 
     # ----- Stage 3 ----- #
@@ -84,7 +84,7 @@ def build_cnn(input_shape, num_classes):
     m.add(tf.keras.layers.Conv2D(
         filters=256,
         kernel_size=[3, 3],
-        padding="same",
+        #padding="same",
         activation=tf.keras.activations.relu
     ))
 
@@ -92,19 +92,19 @@ def build_cnn(input_shape, num_classes):
     m.add(tf.keras.layers.Conv2D(
         filters=256,
         kernel_size=[3, 3],
-        padding="same",
+        #padding="same",
         activation=tf.keras.activations.relu
     ))
 
     # Max Pooling
     m.add(tf.keras.layers.MaxPool2D(
-        pool_size=[2, 2],
-        strides=2
+        pool_size=[2, 2]
+        #strides=2
     ))
 
     # Dropout
     m.add(tf.keras.layers.Dropout(
-        rate=0.25
+        rate=0.2
     ))
 
     # ----- Stage 4 ----- #

@@ -18,3 +18,6 @@ File description:
 
 ################################################################################
 DATA_SPLIT_PERCENTAGE = 0.8
+CHECKPOINT_PERIOD = 20
+BATCH_SIZE = 64
+NUM_EPOCHS = 100

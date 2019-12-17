@@ -194,7 +194,8 @@ if __name__ == "__main__":
 
     # predictions
     r = np.random.randint(len(labels_test))
-    print(f'Test label {r}: {labels_test[r]}')  # ground truth
+    print(f'Test label {r}: {labels_test[r]}')  # ground truth as int
+    print(f'Test label {r}: {num2char[labels_test[r]]}')  # ground truth as text
     predictions = model.predict(images_test)  # predict on images
     x = predictions[r]
     print(f'Class label as distribution: {x}')  # class label as distribution

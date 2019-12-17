@@ -175,12 +175,14 @@ if __name__ == "__main__":
     # plot accuracy
     plt.plot(history.history["accuracy"], label="accuracy")
     plt.plot(history.history["val_accuracy"], label="val_accuracy")
+    plt.title("Training Accuracy")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
     plt.ylim([0.5, 1.1])
     plt.grid()
     plt.legend(loc="lower right")
-    plt.show()
+    #plt.show()
+    plt.savefig(output_dir + "\\Training Accuracy")
 
     # save model weights
     #model.save_weights(output_dir + "\\last_checkpoint")
@@ -194,6 +196,7 @@ if __name__ == "__main__":
 
     # predictions
     r = np.random.randint(len(labels_test))
+    print()
     print(f'Test label {r}: {labels_test[r]}')  # ground truth as int
     print(f'Test label {r}: {num2char[labels_test[r]]}')  # ground truth as text
     predictions = model.predict(images_test)  # predict on images

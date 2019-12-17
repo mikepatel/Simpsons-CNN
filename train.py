@@ -60,6 +60,7 @@ if __name__ == "__main__":
 
     # number of output classes
     num_classes = len(char2num)
+    print(f'Number of classes: {num_classes}')
 
     for character in char2num:
         image_files_pattern = os.path.join(os.getcwd(), "data\\" + character) + "\\*.jpg"
@@ -114,12 +115,12 @@ if __name__ == "__main__":
         labels_train = labels_train + temp_labels_train
         labels_test = labels_test + temp_labels_test
 
-    # normalizing data
+    # normalize images
     images_train = np.array(images_train).astype(np.float32) / 255.0
-    images_test = np.array(images_test).astype(np.float32) / 255.0
+    labels_train = np.array(labels_train)
 
-    labels_train = np.array(labels_train).astype(np.float32) / 255.0
-    labels_test = np.array(labels_test).astype(np.float32) / 255.0
+    images_test = np.array(images_test).astype(np.float32) / 255.0
+    labels_test = np.array(labels_test)
 
     # verify shape of data
     print(f'Training images shape: {images_train.shape}')
@@ -142,12 +143,13 @@ if __name__ == "__main__":
     # train model
     model = build_cnn(input_shape=input_shape, num_classes=num_classes)
     model.compile(
-        loss=tf.keras.losses.sparse_categorical_crossentropy,
-        optimizer=tf.keras.optimizers.Adam(),
+        loss="sparse_categorical_crossentropy",
+        optimizer="adam",
         metrics=["accuracy"]
     )
     model.summary()
 
+    """
     # callbacks --> TensorBoard, save weights
     history_file = output_dir + "\\cnn_train.hdf5"
     save_callback = tf.keras.callbacks.ModelCheckpoint(
@@ -157,6 +159,7 @@ if __name__ == "__main__":
         save_freq=CHECKPOINT_PERIOD
     )
     tb_callback = tf.keras.callbacks.TensorBoard(log_dir=output_dir)
+    """
 
     # train model
     history = model.fit(
@@ -171,10 +174,11 @@ if __name__ == "__main__":
 
     # plot accuracy
     plt.plot(history.history["accuracy"], label="accuracy")
+    plt.plot(history.history["val_accuracy"], label="val_accuracy")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
     plt.ylim([0.0, 1.0])
-    plt.legend(loc="lower_right")
+    plt.legend(loc="lower right")
     plt.show()
     quit()
 

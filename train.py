@@ -117,9 +117,9 @@ if __name__ == "__main__":
 
     # normalize images
     images_train = np.array(images_train).astype(np.float32) / 255.0
-    labels_train = np.array(labels_train)
-
     images_test = np.array(images_test).astype(np.float32) / 255.0
+
+    labels_train = np.array(labels_train)
     labels_test = np.array(labels_test)
 
     # verify shape of data
@@ -143,8 +143,8 @@ if __name__ == "__main__":
     # train model
     model = build_cnn(input_shape=input_shape, num_classes=num_classes)
     model.compile(
-        loss="sparse_categorical_crossentropy",
-        optimizer="adam",
+        loss=tf.keras.losses.sparse_categorical_crossentropy,
+        optimizer=tf.keras.optimizers.Adam(),
         metrics=["accuracy"]
     )
     model.summary()
@@ -177,17 +177,22 @@ if __name__ == "__main__":
     plt.plot(history.history["val_accuracy"], label="val_accuracy")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
-    plt.ylim([0.0, 1.0])
+    plt.ylim([0.5, 1.10])
+    plt.grid()
     plt.legend(loc="lower right")
     plt.show()
-    quit()
 
     # save model weights
-    model.save_weights(output_dir + "\\last_checkpoint")
+    #model.save_weights(output_dir + "\\last_checkpoint")
 
     # load model weights
     #model.load_weights(output_dir + "\\last_checkpoint")
 
     # evaluate model
     #loss, accuracy = model.evaluate(images_test, labels_test)
-    #print(f'Evalution accuracy: {accuracy:.4f}')
+    #print(f'Evalution accuracy: {accuracy:.4f}
+
+    # predictions
+    print(labels_test[500])
+    prediction = model.predict(labels_test[500])
+    print(prediction)

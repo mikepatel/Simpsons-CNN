@@ -177,7 +177,7 @@ if __name__ == "__main__":
     plt.plot(history.history["val_accuracy"], label="val_accuracy")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
-    plt.ylim([0.5, 1.10])
+    plt.ylim([0.5, 1.1])
     plt.grid()
     plt.legend(loc="lower right")
     plt.show()
@@ -189,10 +189,13 @@ if __name__ == "__main__":
     #model.load_weights(output_dir + "\\last_checkpoint")
 
     # evaluate model
-    #loss, accuracy = model.evaluate(images_test, labels_test)
-    #print(f'Evalution accuracy: {accuracy:.4f}
+    #test_loss, test_accuracy = model.evaluate(images_test, labels_test)
+    #print(f'Test accuracy: {test_accuracy:.4f}
 
     # predictions
-    print(labels_test[500])
-    prediction = model.predict(labels_test[500])
-    print(prediction)
+    print(labels_test[500])  # ground truth
+    predictions = model.predict(images_test)  # predict on images
+    x = predictions[500]
+    print(x)  # class label as distribution
+    print(np.argmax(x))  # class label as int
+    print(num2char(np.argmax(x)))  # class label as text

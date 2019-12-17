@@ -193,9 +193,10 @@ if __name__ == "__main__":
     #print(f'Test accuracy: {test_accuracy:.4f}
 
     # predictions
-    print(labels_test[500])  # ground truth
+    r = np.random.randint(len(labels_test))
+    print(f'Test label {r}: {labels_test[r]}')  # ground truth
     predictions = model.predict(images_test)  # predict on images
-    x = predictions[500]
-    print(x)  # class label as distribution
-    print(np.argmax(x))  # class label as int
-    print(num2char(np.argmax(x)))  # class label as text
+    x = predictions[r]
+    print(f'Class label as distribution: {x}')  # class label as distribution
+    print(f'Class label as numerical category: {np.argmax(x)}')  # class label as int
+    print(f'Class label as text: {num2char[np.argmax(x)]}')  # class label as text

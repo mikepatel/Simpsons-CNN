@@ -13,7 +13,20 @@
 * [train.py](https://github.com/mikepatel/Simpsons-CNN/blob/master/train.py) For preprocessing and training algorithm
 
 ## Instructions
-* Instructions coming soon!
+### Train model
+```
+python train.py
+```
+### Use model for inference
+```
+python app.py
+```
 
 ## Results
-* Preliminary results coming soon!
+### Preliminary results after 100 epochs
+| Image | Prediction |
+:------:|:-----------:
+![image](https://github.com/mikepatel/Simpsons-CNN/blob/master/data/Homer%20Simpson/pic_2080.jpg) | ![Prediction]()
+
+## Training Visualization
+![Training](https://github.com/mikepatel/Simpsons-CNN/blob/master/results/18-12-2019_18-18-53/Training%20Accuracy.png)

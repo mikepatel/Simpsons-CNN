@@ -195,10 +195,6 @@ if __name__ == "__main__":
     # save the entire model (for later use in Android app)
     model.save(output_dir + "\\saved_model.h5")
 
-    # load model
-    # new_model = tf.keras.models.load_model(output_dir + "\\saved_model.h5")
-
-    # ----- PREDICT ----- #
     # predictions
     r = np.random.randint(len(labels_test))
     print()

@@ -14,7 +14,12 @@ File description:
 """
 ################################################################################
 # Imports
+import tensorflow as tf
 
 
 ################################################################################
-
+# Main
+if __name__ == "__main__":
+    # ----- PREDICT ----- #
+    # load model
+    model = tf.keras.models.load_model(output_dir + "\\saved_model.h5")

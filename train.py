@@ -190,17 +190,27 @@ if __name__ == "__main__":
     # load model weights
     #model.load_weights(output_dir + "\\last_checkpoint")
 
-    # evaluate model
-    #test_loss, test_accuracy = model.evaluate(images_test, labels_test)
-    #print(f'Test accuracy: {test_accuracy:.4f}
+    # evaluate model accuracy to determine overfitting
+    test_loss, test_accuracy = model.evaluate(
+        x=images_test,
+        y=labels_test,
+        verbose=0
+    )
+    print(f'\nTest accuracy: {test_accuracy:.4f}')
 
+    # ----- PREDICT ----- #
     # predictions
     r = np.random.randint(len(labels_test))
     print()
-    print(f'Test label {r}: {labels_test[r]}')  # ground truth as int
-    print(f'Test label {r}: {num2char[labels_test[r]]}')  # ground truth as text
-    predictions = model.predict(images_test)  # predict on images
-    x = predictions[r]
-    print(f'Class label as distribution: {x}')  # class label as distribution
-    print(f'Class label as numerical category: {np.argmax(x)}')  # class label as int
-    print(f'Class label as text: {num2char[np.argmax(x)]}')  # class label as text
+    print(f'Test label {r} as int: {labels_test[r]}')  # ground truth as int
+    print(f'Test label {r} as text: {num2char[labels_test[r]]}')  # ground truth as text
+
+    i = images_test[r]  # single image
+    i = np.expand_dims(i, 0)  # reshape: (1, 64, 64, 3)
+    #print(i.shape)
+
+    prediction = model.predict(i)  # predict on image
+    print()
+    print(f'Prediction as distribution: {prediction}')  # prediction as distribution
+    print(f'Prediction as numerical category: {np.argmax(prediction)}')  # prediction as int
+    print(f'Prediction as text: {num2char[np.argmax(prediction)]}')  # prediction as text

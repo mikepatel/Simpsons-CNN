@@ -184,12 +184,6 @@ if __name__ == "__main__":
     #plt.show()
     plt.savefig(output_dir + "\\Training Accuracy")
 
-    # save model weights
-    #model.save_weights(output_dir + "\\last_checkpoint")
-
-    # load model weights
-    #model.load_weights(output_dir + "\\last_checkpoint")
-
     # evaluate model accuracy to determine overfitting
     test_loss, test_accuracy = model.evaluate(
         x=images_test,
@@ -197,6 +191,12 @@ if __name__ == "__main__":
         verbose=0
     )
     print(f'\nTest accuracy: {test_accuracy:.4f}')
+
+    # save the entire model (for later use in Android app)
+    model.save(output_dir + "\\saved_model.h5")
+
+    # load model
+    # new_model = tf.keras.models.load_model(output_dir + "\\saved_model.h5")
 
     # ----- PREDICT ----- #
     # predictions

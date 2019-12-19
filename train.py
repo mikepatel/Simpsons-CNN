@@ -20,6 +20,8 @@ from datetime import datetime
 import glob  # module to find all pathnames matching a specified pattern
 import imageio
 from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 import matplotlib.pyplot as plt
 
 import tensorflow as tf
@@ -196,7 +198,16 @@ if __name__ == "__main__":
     model.save(output_dir + "\\saved_model.h5")
 
     # predictions
-    r = np.random.randint(len(labels_test))
+    #r = np.random.randint(len(labels_test))
+    r = 553  # Homer 2080
+    """
+    # convert from array to image
+    x = images_test[r]
+    x = x * 255
+    x = x.astype(np.uint8)
+    Image.fromarray(x).show()
+    """
+
     print()
     print(f'Test label {r} as int: {labels_test[r]}')  # ground truth as int
     print(f'Test label {r} as text: {num2char[labels_test[r]]}')  # ground truth as text
@@ -206,7 +217,33 @@ if __name__ == "__main__":
     #print(i.shape)
 
     prediction = model.predict(i)  # predict on image
-    print()
-    print(f'Prediction as distribution: {prediction}')  # prediction as distribution
-    print(f'Prediction as numerical category: {np.argmax(prediction)}')  # prediction as int
-    print(f'Prediction as text: {num2char[np.argmax(prediction)]}')  # prediction as text
+
+    # prediction as distribution
+    prediction_distribution = prediction
+    print(f'Prediction as distribution: {prediction_distribution}')
+
+    # prediction as int
+    prediction = np.argmax(prediction_distribution)
+    print(f'Prediction as numerical category: {prediction}')
+
+    # prediction as text
+    prediction = num2char[prediction]
+    print(f'Prediction as text: {num2char[np.argmax(prediction)]}')
+
+    # create prediction text
+    t = []
+    for i in range(2):
+        x = f'{num2char[i]}: {prediction_distribution[0][i]:.6f}'
+        t.append(x)
+
+    t = "\n".join(t)
+    print(t)
+
+    # write prediction over image
+    image_path = os.path.join(os.getcwd(), "data\\Homer Simpson\\pic_2080.jpg")
+    image = Image.open(image_path)
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.truetype("arial.ttf", 30)
+    draw.text((0, 0), t, font=font)
+    image.save(output_dir + "\\pred_image.png")
+

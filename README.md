@@ -1,6 +1,6 @@
 # Simpsons-CNN
 ## Overview
-* CNN model to detect characters from The Simpsons
+* CNN model to classify characters from The Simpsons
 * Trained using TensorFlow 2.0
 
 ## Data

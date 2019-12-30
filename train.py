@@ -46,10 +46,16 @@ if __name__ == "__main__":
 
     # ----- ETL ----- #
     # ETL = Extraction, Transformation, Load
+    # Training: 80%
+    # Validation: 10%
+    # Test: 10%
     images_train = []
     images_test = []
+    images_val = []
+
     labels_train = []
     labels_test = []
+    labels_val = []
 
     # mapping between Simpsons character and a numeric categorial label
     char2num = {
@@ -124,11 +130,22 @@ if __name__ == "__main__":
     labels_train = np.array(labels_train)
     labels_test = np.array(labels_test)
 
+    # create validation set
+    midpoint = int(len(images_test) / 2)
+
+    images_val = images_test[:midpoint]
+    images_test = images_test[midpoint:]
+
+    labels_val = labels_test[:midpoint]
+    labels_test = labels_test[midpoint:]
+
     # verify shape of data
     print(f'Training images shape: {images_train.shape}')
     print(f'Training labels shape: {labels_train.shape}')
     print(f'Test images shape: {images_test.shape}')
     print(f'Test labels shape: {labels_test.shape}')
+    print(f'Validation images shape: {images_val.shape}')
+    print(f'Validation labels shape: {labels_val.shape}')
 
     input_shape = (64, 64, 3)
 
@@ -170,7 +187,7 @@ if __name__ == "__main__":
         batch_size=BATCH_SIZE,
         epochs=NUM_EPOCHS,
         steps_per_epoch=images_train.shape[0] // BATCH_SIZE,
-        validation_data=(images_test, labels_test)
+        validation_data=(images_val, labels_val)
         #callbacks=[save_callback, tb_callback]
     )
 
@@ -197,6 +214,7 @@ if __name__ == "__main__":
     # save the entire model (for later use in Android app)
     model.save(output_dir + "\\saved_model.h5")
 
+    # ----- PREDICT ----- #
     # predictions
     #r = np.random.randint(len(labels_test))
     r = 553  # Homer 2080
@@ -239,7 +257,7 @@ if __name__ == "__main__":
     t = "\n".join(t)
     print(t)
 
-    # write prediction over image
+    # write prediction text over image
     image_path = os.path.join(os.getcwd(), "data\\Homer Simpson\\pic_2080.jpg")
     image = Image.open(image_path)
     draw = ImageDraw.Draw(image)

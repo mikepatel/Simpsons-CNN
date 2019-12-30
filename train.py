@@ -217,13 +217,16 @@ if __name__ == "__main__":
     # ----- PREDICT ----- #
     # predictions
     #r = np.random.randint(len(labels_test))
-    r = 553  # Homer 2080
+    #r = 553  # Homer 2080
+    r = len(images_test)-1  # Homer 2245 (last pic)
+
     """
     # convert from array to image
     x = images_test[r]
     x = x * 255
     x = x.astype(np.uint8)
     Image.fromarray(x).show()
+    quit()
     """
 
     print()
@@ -235,6 +238,7 @@ if __name__ == "__main__":
     #print(i.shape)
 
     prediction = model.predict(i)  # predict on image
+    print()
 
     # prediction as distribution
     prediction_distribution = prediction
@@ -246,22 +250,37 @@ if __name__ == "__main__":
 
     # prediction as text
     prediction = num2char[prediction]
-    print(f'Prediction as text: {num2char[np.argmax(prediction)]}')
+    print(f'Prediction as text: {prediction}')
 
     # create prediction text
     t = []
-    for i in range(2):
-        x = f'{num2char[i]}: {prediction_distribution[0][i]:.6f}'
+
+    for i in range(num_classes):
+        #x = f'{num2char[i]}: {prediction_distribution[0][i]:.6f}'
+        x = {"name": num2char[i],
+             "value": prediction_distribution[0][i]
+             }
         t.append(x)
 
-    t = "\n".join(t)
     print(t)
 
+    t = sorted(t, key=lambda i: (i["value"]), reverse=True)
+
+    print(t)
+
+    z = []
+    for i in t:
+        x = f'{i["name"]}: {i["value"]:.6f}'
+        z.append(x)
+
+    z = "\n".join(z)
+    print(f'\n{z}')
+
     # write prediction text over image
-    image_path = os.path.join(os.getcwd(), "data\\Homer Simpson\\pic_2080.jpg")
+    image_path = os.path.join(os.getcwd(), "data\\Homer Simpson\\pic_2245.jpg")
     image = Image.open(image_path)
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype("arial.ttf", 30)
-    draw.text((0, 0), t, font=font)
+    draw.text((0, 0), z, font=font)
     image.save(output_dir + "\\pred_image.png")
 

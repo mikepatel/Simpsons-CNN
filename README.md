@@ -4,7 +4,7 @@
 * Trained using TensorFlow 2.0
 
 ## Data
-* The [dataset](https://github.com/mikepatel/Simpsons-CNN/tree/master/data) is composed of images of characters from The Simpsons provided from [alexattia](https://www.kaggle.com/alexattia/the-simpsons-characters-dataset)
+* The [dataset](https://github.com/mikepatel/Simpsons-CNN/tree/master/data) is composed of images of characters from The Simpsons provided by [alexattia](https://www.kaggle.com/alexattia/the-simpsons-characters-dataset)
 
 ## File descriptions
 * [app.py](https://github.com/mikepatel/Simpsons-CNN/blob/master/app.py) To run the trained model

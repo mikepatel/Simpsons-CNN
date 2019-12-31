@@ -46,6 +46,8 @@ if __name__ == "__main__":
 
     # ----- ETL ----- #
     # ETL = Extraction, Transformation, Load
+    print(f'\n# ----- PREPROCESSING ----- #')
+
     # Training: 80%
     # Validation: 10%
     # Test: 10%
@@ -205,21 +207,19 @@ if __name__ == "__main__":
     plt.savefig(output_dir + "\\Training Accuracy")
 
     # evaluate model accuracy to determine overfitting
+    print(f'\n# ----- TEST ACCURACY ----- #')
     test_loss, test_accuracy = model.evaluate(
         x=test_images,
         y=test_labels,
         verbose=0
     )
-    print(f'\nTest accuracy: {test_accuracy:.4f}')
+    print(f'Test accuracy: {test_accuracy:.6f}')
 
     # save the entire model (for later use in Android app)
     model.save(output_dir + "\\saved_model.h5")
 
     # ----- PREDICT ----- #
-    # predictions
-    #r = np.random.randint(len(test_labels))
-    #r = 553  # Homer 2080
-    r = len(test_images)-1  # Homer 2245 (last pic)
+    last_idx = len(test_images)-1  # Homer 2245 (last pic)
 
     """
     # convert from array to image
@@ -230,17 +230,17 @@ if __name__ == "__main__":
     quit()
     """
 
-    print()
-    print(f'Test label {r} as int: {test_labels[r]}')  # ground truth as int
-    print(f'Test label {r} as text: {num2char[test_labels[r]]}')  # ground truth as text
+    print(f'\n# ----- GROUND TRUTH ----- #')
+    print(f'Test label {last_idx} as int: {test_labels[last_idx]}')  # ground truth as int
+    print(f'Test label {last_idx} as text: {num2char[test_labels[last_idx]]}')  # ground truth as text
 
-    i = test_images[r]  # single image
+    i = test_images[last_idx]  # single image
     i = np.expand_dims(i, 0)  # reshape: (1, 64, 64, 3)
     #print(i.shape)
 
     prediction = model.predict(i)  # predict on image
-    print()
 
+    print(f'\n# ----- PREDICTIONS ----- #')
     # prediction as distribution
     prediction_distribution = prediction
     print(f'Prediction as distribution: {prediction_distribution}')
@@ -254,31 +254,33 @@ if __name__ == "__main__":
     print(f'Prediction as text: {prediction}')
 
     # create prediction text
+    print(f'\n# ----- PREDICTION TEXT BLOCK ----- #')
     t = []
 
     for i in range(num_classes):
-        #x = f'{num2char[i]}: {prediction_distribution[0][i]:.6f}'
         x = {"name": num2char[i],
              "value": prediction_distribution[0][i]
              }
         t.append(x)
 
-    print(t)
+    #print(t)
 
+    # sort predictions in descending order
     t = sorted(t, key=lambda i: (i["value"]), reverse=True)
 
-    print(t)
+    #print(t)
 
+    # build text block over image
     z = []
     for i in t:
         x = f'{i["name"]}: {i["value"]:.6f}'
         z.append(x)
 
     z = "\n".join(z)
-    print(f'\n{z}')
+    print(f'{z}')
 
     # write prediction text over image
-    image_path = os.path.join(os.getcwd(), "data\\Homer Simpson\\pic_2245.jpg")
+    image_path = os.path.join(os.getcwd(), "data\\Training\\Homer Simpson\\pic_2245.jpg")
     image = Image.open(image_path)
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype("arial.ttf", 30)

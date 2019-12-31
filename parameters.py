@@ -15,4 +15,4 @@ File description:
 ################################################################################
 CHECKPOINT_PERIOD = 10
 BATCH_SIZE = 16
-NUM_EPOCHS = 5
+NUM_EPOCHS = 1

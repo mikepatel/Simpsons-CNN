@@ -149,7 +149,6 @@ if __name__ == "__main__":
     print(f'Test labels shape: {test_labels.shape}')
 
     input_shape = (64, 64, 3)
-    quit()
 
     """
     # convert from array to image

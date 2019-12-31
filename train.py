@@ -49,15 +49,15 @@ if __name__ == "__main__":
     # Training: 80%
     # Validation: 10%
     # Test: 10%
-    images_train = []
-    images_test = []
-    images_val = []
+    train_images = []
+    val_images = []
+    test_images = []
 
-    labels_train = []
-    labels_test = []
-    labels_val = []
+    train_labels = []
+    val_labels = []
+    test_labels = []
 
-    # mapping between Simpsons character and a numeric categorial label
+    # mapping between Simpsons character and a numeric categorical label
     char2num = {
         "Bart Simpson": 0,
         "Homer Simpson": 1
@@ -70,8 +70,9 @@ if __name__ == "__main__":
     num_classes = len(char2num)
     print(f'Number of classes: {num_classes}')
 
+    # build train, validation, test datasets
     for character in char2num:
-        image_files_pattern = os.path.join(os.getcwd(), "data\\" + character) + "\\*.jpg"
+        image_files_pattern = os.path.join(os.getcwd(), "data\\Training\\" + character) + "\\*.jpg"
         filenames = glob.glob(image_files_pattern)
 
         # create temporary (images, labels) dataset, and then split into training and test
@@ -106,52 +107,53 @@ if __name__ == "__main__":
             temp_labels.append(char2num[character])
 
         # create temp training and test sets for each Simpsons character
-        split_idx = int(DATA_SPLIT_PERCENTAGE * len(temp_images))
+        split_idx = int(0.80 * len(temp_images))
 
         # split images
-        temp_images_train = temp_images[:split_idx]
-        temp_images_test = temp_images[split_idx:]
+        temp_train_images = temp_images[:split_idx]
+        temp_test_images = temp_images[split_idx:]
 
         # split labels
-        temp_labels_train = temp_labels[:split_idx]
-        temp_labels_test = temp_labels[split_idx:]
+        temp_train_labels = temp_labels[:split_idx]
+        temp_test_labels = temp_labels[split_idx:]
 
         # join temp training and test sets for each Simpsons character together
-        images_train = images_train + temp_images_train
-        images_test = images_test + temp_images_test
+        train_images = train_images + temp_train_images
+        test_images = test_images + temp_test_images
 
-        labels_train = labels_train + temp_labels_train
-        labels_test = labels_test + temp_labels_test
+        train_labels = train_labels + temp_train_labels
+        test_labels = test_labels + temp_test_labels
 
     # normalize images
-    images_train = np.array(images_train).astype(np.float32) / 255.0
-    images_test = np.array(images_test).astype(np.float32) / 255.0
+    train_images = np.array(train_images).astype(np.float32) / 255.0
+    test_images = np.array(test_images).astype(np.float32) / 255.0
 
-    labels_train = np.array(labels_train)
-    labels_test = np.array(labels_test)
+    train_labels = np.array(train_labels)
+    test_labels = np.array(test_labels)
 
     # create validation set
-    midpoint = int(len(images_test) / 2)
+    midpoint = int(len(test_images) / 2)
 
-    images_val = images_test[:midpoint]
-    images_test = images_test[midpoint:]
+    val_images = test_images[:midpoint]
+    test_images = test_images[midpoint:]
 
-    labels_val = labels_test[:midpoint]
-    labels_test = labels_test[midpoint:]
+    val_labels = test_labels[:midpoint]
+    test_labels = test_labels[midpoint:]
 
     # verify shape of data
-    print(f'Training images shape: {images_train.shape}')
-    print(f'Training labels shape: {labels_train.shape}')
-    print(f'Test images shape: {images_test.shape}')
-    print(f'Test labels shape: {labels_test.shape}')
-    print(f'Validation images shape: {images_val.shape}')
-    print(f'Validation labels shape: {labels_val.shape}')
+    print(f'Training images shape: {train_images.shape}')
+    print(f'Training labels shape: {train_labels.shape}')
+    print(f'Validation images shape: {val_images.shape}')
+    print(f'Validation labels shape: {val_labels.shape}')
+    print(f'Test images shape: {test_images.shape}')
+    print(f'Test labels shape: {test_labels.shape}')
 
     input_shape = (64, 64, 3)
+    quit()
 
     """
     # convert from array to image
-    x = images_train[2000]
+    x = train_images[2000]
     x = x * 255
     x = x.astype(np.uint8)
     Image.fromarray(x).show()
@@ -182,12 +184,12 @@ if __name__ == "__main__":
 
     # train model
     history = model.fit(
-        x=images_train,
-        y=labels_train,
+        x=train_images,
+        y=train_labels,
         batch_size=BATCH_SIZE,
         epochs=NUM_EPOCHS,
-        steps_per_epoch=images_train.shape[0] // BATCH_SIZE,
-        validation_data=(images_val, labels_val)
+        steps_per_epoch=train_images.shape[0] // BATCH_SIZE,
+        validation_data=(val_images, val_labels)
         #callbacks=[save_callback, tb_callback]
     )
 
@@ -205,8 +207,8 @@ if __name__ == "__main__":
 
     # evaluate model accuracy to determine overfitting
     test_loss, test_accuracy = model.evaluate(
-        x=images_test,
-        y=labels_test,
+        x=test_images,
+        y=test_labels,
         verbose=0
     )
     print(f'\nTest accuracy: {test_accuracy:.4f}')
@@ -216,13 +218,13 @@ if __name__ == "__main__":
 
     # ----- PREDICT ----- #
     # predictions
-    #r = np.random.randint(len(labels_test))
+    #r = np.random.randint(len(test_labels))
     #r = 553  # Homer 2080
-    r = len(images_test)-1  # Homer 2245 (last pic)
+    r = len(test_images)-1  # Homer 2245 (last pic)
 
     """
     # convert from array to image
-    x = images_test[r]
+    x = test_images[r]
     x = x * 255
     x = x.astype(np.uint8)
     Image.fromarray(x).show()
@@ -230,10 +232,10 @@ if __name__ == "__main__":
     """
 
     print()
-    print(f'Test label {r} as int: {labels_test[r]}')  # ground truth as int
-    print(f'Test label {r} as text: {num2char[labels_test[r]]}')  # ground truth as text
+    print(f'Test label {r} as int: {test_labels[r]}')  # ground truth as int
+    print(f'Test label {r} as text: {num2char[test_labels[r]]}')  # ground truth as text
 
-    i = images_test[r]  # single image
+    i = test_images[r]  # single image
     i = np.expand_dims(i, 0)  # reshape: (1, 64, 64, 3)
     #print(i.shape)
 

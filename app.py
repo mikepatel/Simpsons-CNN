@@ -14,6 +14,7 @@ File description:
 """
 ################################################################################
 # Imports
+import os
 import tensorflow as tf
 
 
@@ -22,4 +23,9 @@ import tensorflow as tf
 if __name__ == "__main__":
     # ----- PREDICT ----- #
     # load model
-    model = tf.keras.models.load_model(output_dir + "\\saved_model.h5")
+    filepath = os.path.join(os.getcwd(), "temp\\saved_model.h5")
+    model = tf.keras.models.load_model(filepath)
+
+    # predict on new data
+
+    # create gif

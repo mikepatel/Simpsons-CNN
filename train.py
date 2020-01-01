@@ -18,7 +18,6 @@ import os
 import numpy as np
 from datetime import datetime
 import glob  # module to find all pathnames matching a specified pattern
-import imageio
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont

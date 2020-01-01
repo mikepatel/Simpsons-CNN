@@ -40,7 +40,12 @@ if __name__ == "__main__":
     temp_dir = os.path.join(os.getcwd(), "temp")
 
     # delete 'predictions' sub-directory
-    delete_dir(os.path.join(temp_dir, "predictions"))
+    predictions_dir = os.path.join(temp_dir, "predictions")
+    delete_dir(predictions_dir)
+
+    # create 'predictions' sub-directory
+    if not os.path.exists(predictions_dir):
+        os.makedirs(predictions_dir)
 
     # mapping between Simpsons character and a numeric categorical label
     char2num = {
@@ -85,24 +90,38 @@ if __name__ == "__main__":
     text = []
     for i in range(len(predictions)):
         image_text = []
-        
+
         for j in range(num_classes):
             t = {
                 "name": num2char[j],
                 "value": predictions[i][j]
             }
             image_text.append(t)
-        text.append(image_text)
 
-        """
-        category_int = np.argmax(predictions[i])
-        t = {
-            "category": num2char[category_int],
-            "value": predictions[i][]
-        }
-        print(num2char[category_int])
-        """
+        # sort predictions in descending order
+        image_text = sorted(image_text, key=lambda x: (x["value"]), reverse=True)
 
-    print(text)
+        # build image text as single string
+        z = []
+        for d in image_text:
+            x = f'{d["name"]}: {d["value"]:.6f}'
+            z.append(x)
+
+        z = "\n".join(z)
+
+        text.append(z)
+
+    #print(text)
+
+    # write prediction text onto image
+    for i in range(len(filenames)):
+        # get image filename
+        name = filenames[i].split("\\")[-1]
+
+        image = Image.open(filenames[i])
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.truetype("arial.ttf", 8)
+        draw.text((0, 0), text[i], font=font)
+        image.save(predictions_dir + "\\pred_" + name)
 
     # create gif

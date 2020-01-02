@@ -65,25 +65,32 @@ if __name__ == "__main__":
     model = tf.keras.models.load_model(filepath)
 
     # read in test dataset
+    """
     homer_test_dir = os.path.join(os.getcwd(), "data\\Test\\Homer Simpson")
     image_files_pattern = homer_test_dir + "\\*.jpg"
     filenames = glob.glob(image_files_pattern)
+    """
 
     # preprocess images
     images = []
 
-    for f in filenames:
-        image = Image.open(f)
+    for character in char2num:
+        image_files_pattern = os.path.join("data\\Test\\" + character) + "\\*.jpg"
+        filenames = glob.glob(image_files_pattern)
 
-        # resize image
-        resized_image = image.resize((64, 64))
-        images.append(np.array(resized_image))
+        for f in filenames:
+            image = Image.open(f)
+
+            # resize image
+            resized_image = image.resize((64, 64))
+            images.append(np.array(resized_image))
 
     # normalize images
     images = np.array(images).astype(np.float32) / 255.0
 
     # predict using model
     #images = np.expand_dims(images, 0)
+    #images = tf.random.shuffle(images)
     predictions = model.predict(images)
     #print(predictions)
 
@@ -114,14 +121,36 @@ if __name__ == "__main__":
     #print(text)
 
     # write prediction text onto image
-    for i in range(len(filenames)):
-        # get image filename
-        name = filenames[i].split("\\")[-1]
+    for character in char2num:
+        image_files_pattern = os.path.join("data\\Test\\" + character) + "\\*.jpg"
+        filenames = glob.glob(image_files_pattern)
 
-        image = Image.open(filenames[i])
-        draw = ImageDraw.Draw(image)
-        font = ImageFont.truetype("arial.ttf", 8)
-        draw.text((0, 0), text[i], font=font)
-        image.save(predictions_dir + "\\pred_" + name)
+        for i in range(len(filenames)):
+            # get image filename
+            name = filenames[i].split("\\")[-1]
+
+            image = Image.open(filenames[i])
+            draw = ImageDraw.Draw(image)
+            font = ImageFont.truetype("arial.ttf", 8)
+            draw.text((0, 0), text[i], font=font)
+            image.save(predictions_dir + "\\pred_" + name)
 
     # create gif
+    gif_filename = os.path.join(predictions_dir, "predictions.gif")
+
+    # get all predicted images
+    image_files_pattern = predictions_dir + "\\*.jpg"
+    filenames = glob.glob(image_files_pattern)
+
+    # shuffle filenames
+
+    # write all images to gif
+    with imageio.get_writer(gif_filename, mode="I", fps=0.8) as writer:  # 'I' for multiple images
+        for f in filenames:
+            image = imageio.imread(f)
+            writer.append_data(image)
+
+    # delete all individual predicted images
+    for f in filenames:
+        if f.endswith(".jpg"):
+            os.remove(f)

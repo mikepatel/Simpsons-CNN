@@ -16,6 +16,7 @@ File description:
 # Imports
 import os
 import numpy as np
+from random import shuffle
 import shutil
 import glob
 import imageio
@@ -69,6 +70,7 @@ if __name__ == "__main__":
         image_files_pattern = os.path.join("data\\Test\\" + character) + "\\*.jpg"
         filenames = glob.glob(image_files_pattern)
 
+        # for each image in character sub-directory
         for f in filenames:
             image = Image.open(f)
             original_image = image
@@ -143,6 +145,7 @@ if __name__ == "__main__":
     filenames = glob.glob(image_files_pattern)
 
     # shuffle filenames
+    shuffle(filenames)
 
     # write all images to gif
     with imageio.get_writer(gif_filename, mode="I", fps=0.8) as writer:  # 'I' for multiple images

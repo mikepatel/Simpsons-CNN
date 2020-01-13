@@ -217,9 +217,11 @@ if __name__ == "__main__":
     # save the entire model (for later use in Android app)
     model.save(output_dir + "\\saved_model.h5")
 
+    """
     # ----- PREDICT ----- #
     last_idx = len(test_images)-1  # Homer 2245 (last pic)
 
+    """
     """
     # convert from array to image
     x = test_images[r]
@@ -228,7 +230,7 @@ if __name__ == "__main__":
     Image.fromarray(x).show()
     quit()
     """
-
+    """
     print(f'\n# ----- GROUND TRUTH ----- #')
     print(f'Test label {last_idx} as int: {test_labels[last_idx]}')  # ground truth as int
     print(f'Test label {last_idx} as text: {num2char[test_labels[last_idx]]}')  # ground truth as text
@@ -285,4 +287,4 @@ if __name__ == "__main__":
     font = ImageFont.truetype("arial.ttf", 30)
     draw.text((0, 0), z, font=font)
     image.save(output_dir + "\\pred_image.png")
-
+    """

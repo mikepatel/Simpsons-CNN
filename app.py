@@ -37,14 +37,17 @@ def delete_dir(d):
 ################################################################################
 # Main
 if __name__ == "__main__":
+    """
     # 'temp' directory
     temp_dir = os.path.join(os.getcwd(), "temp")
 
     # delete 'predictions' sub-directory
     predictions_dir = os.path.join(temp_dir, "predictions")
     delete_dir(predictions_dir)
+    """
 
-    # create 'predictions' sub-directory
+    # create 'predictions' directory
+    predictions_dir = os.path.join(os.getcwd(), "predictions")
     if not os.path.exists(predictions_dir):
         os.makedirs(predictions_dir)
 
@@ -62,7 +65,7 @@ if __name__ == "__main__":
 
     # ----- PREDICT ----- #
     # load model
-    filepath = os.path.join(temp_dir, "saved_model.h5")
+    filepath = os.path.join(predictions_dir, "saved_model.h5")
     model = tf.keras.models.load_model(filepath)
 
     # read in images and predict one-by-one

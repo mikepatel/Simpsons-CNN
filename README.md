@@ -23,13 +23,13 @@ python app.py
 ```
 
 ## Results
-### Preliminary results after 8 epochs
-![predictions gif](https://github.com/mikepatel/Simpsons-CNN/blob/master/predictions/predictions.gif)
-
 ### Preliminary results after 5 epochs
 | Image | Prediction |
 :------:|:-----------:
 ![image](https://github.com/mikepatel/Simpsons-CNN/blob/master/data/Training/Homer%20Simpson/pic_2080.jpg) | ![Prediction](https://github.com/mikepatel/Simpsons-CNN/blob/master/results/18-12-2019_19-18-01/pred_image.png)
+
+### Preliminary results after 8 epochs
+![predictions gif](https://github.com/mikepatel/Simpsons-CNN/blob/master/predictions/predictions.gif)
 
 ## Training Visualization
 ![Training](https://github.com/mikepatel/Simpsons-CNN/blob/master/results/18-12-2019_19-18-01/Training%20Accuracy.png)

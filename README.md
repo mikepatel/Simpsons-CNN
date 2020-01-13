@@ -24,7 +24,7 @@ python app.py
 
 ## Results
 ### Preliminary results after 8 epochs
-![predictions gif](https://github.com/mikepatel/Simpsons-CNN/blob/master/temp/predictions/predictions.gif)
+![predictions gif](https://github.com/mikepatel/Simpsons-CNN/blob/master/predictions/predictions.gif)
 
 ### Preliminary results after 5 epochs
 | Image | Prediction |

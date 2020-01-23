@@ -215,7 +215,8 @@ if __name__ == "__main__":
     print(f'Test accuracy: {test_accuracy:.6f}')
 
     # save the entire model (for later use in Android app)
-    model.save(output_dir + "\\saved_model.h5")
+    #model.save(output_dir + "\\saved_model.h5")
+    model.save(os.path.join(os.getcwd(), "saved_model"))
 
     """
     # ----- PREDICT ----- #

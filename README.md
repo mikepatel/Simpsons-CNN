@@ -2,7 +2,7 @@
 ## Overview
 * CNN model to classify characters from The Simpsons
 * Trained using TensorFlow 2.0
-* Run inference on Android mobile platform
+* Run inference on Android mobile platform, developed from TF integration with Android Studio Canary
 
 ## Data
 * The [dataset](https://github.com/mikepatel/Simpsons-CNN/tree/master/data) is composed of images of characters from The Simpsons provided by [alexattia](https://www.kaggle.com/alexattia/the-simpsons-characters-dataset)

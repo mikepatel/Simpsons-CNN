@@ -29,10 +29,10 @@ IMAGE_HEIGHT = 224
 IMAGE_CHANNELS = 3
 
 # model and training parameters
-NUM_EPOCHS = 1
+NUM_EPOCHS = 10
 BATCH_SIZE = 32
 VALIDATION_SPLIT = 0.2
-LEARNING_RATE = 1e-4  # Adam
+LEARNING_RATE = 1e-3  # Adam
 
 # fine-tuning
 NUM_LAYERS_FREEZE = 100

@@ -38,12 +38,12 @@ if __name__ == "__main__":
     # image generators
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1./255,
-        #rotation_range=30,
-        #horizontal_flip=True,
-        #vertical_flip=True,
-        #width_shift_range=0.3,
-        #height_shift_range=0.3,
-        #brightness_range=[0.3, 1.3],
+        rotation_range=30,
+        horizontal_flip=True,
+        vertical_flip=True,
+        width_shift_range=0.3,
+        height_shift_range=0.3,
+        brightness_range=[0.3, 1.3],
         validation_split=VALIDATION_SPLIT
     )
 
@@ -131,6 +131,7 @@ if __name__ == "__main__":
     plt.savefig(os.path.join(SAVE_DIR, "plots"))
 
     # ----- FINE TUNE ---- #
+    """
     print(f'\n\nFINE TUNE\n\n')
     
     # re-build model
@@ -184,9 +185,16 @@ if __name__ == "__main__":
     plt.xlabel('epoch')
 
     plt.savefig(os.path.join(SAVE_DIR, "plots_finetune"))
+    """
 
     # ----- SAVE ----- #
     # save model
+    model.save(SAVE_DIR)
 
     # ----- DEPLOY ----- #
     # convert model to TF Lite
+    converter = tf.lite.TFLiteConverter.from_saved_model(SAVE_DIR)
+    tflite_model = converter.convert()
+
+    with open(os.path.join(SAVE_DIR, 'model.tflite'), 'wb') as f:
+        f.write(tflite_model)

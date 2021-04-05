@@ -132,13 +132,56 @@ if __name__ == "__main__":
 
     # ----- FINE TUNE ---- #
     # re-build model
-
+    # unfreeze base
+    mobilenet.trainable = True
+    for layer in mobilenet.layers[:NUM_LAYERS_FREEZE]:
+        layer.trainable = False  # freeze early layers
 
     # re-compile model
+    model.compile(
+        loss=tf.keras.losses.categorical_crossentropy,
+        optimizer=tf.keras.optimizers.SGD(learning_rate=LEARNING_RATE_FINE_TUNING),
+        metrics=["accuracy"]
+    )
+
+    model.summary()
 
     # continue training
+    history = model.fit(
+        x=train_generator,
+        steps_per_epoch=len(train_generator),
+        epochs=NUM_EPOCHS_FINE_TUNING,
+        validation_data=val_generator,
+        validation_steps=len(val_generator)
+    )
 
     # fine-tuning plots
+    acc = history.history['accuracy']
+    val_acc = history.history['val_accuracy']
+
+    loss = history.history['loss']
+    val_loss = history.history['val_loss']
+
+    plt.figure(figsize=(8, 8))
+    plt.grid()
+    plt.subplot(2, 1, 1)
+    plt.plot(acc, label='Training Accuracy')
+    plt.plot(val_acc, label='Validation Accuracy')
+    plt.legend(loc='lower right')
+    plt.ylabel('Accuracy')
+    plt.ylim([min(plt.ylim()), 1])
+    plt.title('Training and Validation Accuracy')
+
+    plt.subplot(2, 1, 2)
+    plt.plot(loss, label='Training Loss')
+    plt.plot(val_loss, label='Validation Loss')
+    plt.legend(loc='upper right')
+    plt.ylabel('Cross Entropy')
+    plt.ylim([0, 3.0])
+    plt.title('Training and Validation Loss')
+    plt.xlabel('epoch')
+
+    plt.savefig(os.path.join(SAVE_DIR, "plots_finetune"))
 
     # ----- SAVE ----- #
     # save model

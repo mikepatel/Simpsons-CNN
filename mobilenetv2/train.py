@@ -131,6 +131,8 @@ if __name__ == "__main__":
     plt.savefig(os.path.join(SAVE_DIR, "plots"))
 
     # ----- FINE TUNE ---- #
+    print(f'\n\nFINE TUNE\n\n')
+    
     # re-build model
     # unfreeze base
     mobilenet.trainable = True

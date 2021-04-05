@@ -12,7 +12,6 @@ File description:
 ################################################################################
 # Imports
 from packages import *
-from model import build_model
 
 
 ################################################################################
@@ -39,6 +38,12 @@ if __name__ == "__main__":
     # image generators
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1./255,
+        #rotation_range=30,
+        #horizontal_flip=True,
+        #vertical_flip=True,
+        #width_shift_range=0.3,
+        #height_shift_range=0.3,
+        #brightness_range=[0.3, 1.3],
         validation_split=VALIDATION_SPLIT
     )
 
@@ -58,7 +63,26 @@ if __name__ == "__main__":
 
     # ----- MODEL ----- #
     # build model
-    model = build_model(num_classes=num_classes)
+    mobilenet = tf.keras.applications.MobileNetV2(
+        input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS),
+        weights="imagenet",
+        include_top=False
+    )
+    mobilenet.trainable = False
+
+    inputs = tf.keras.Input(shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS))
+    x = inputs
+    x = mobilenet(x)
+    x = tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation="relu")(x)
+    x = tf.keras.layers.Dropout(rate=0.5)(x)
+    x = tf.keras.layers.GlobalAveragePooling2D()(x)
+    x = tf.keras.layers.Dense(units=num_classes, activation="softmax")(x)
+    outputs = x
+
+    model = tf.keras.Model(
+        inputs=inputs,
+        outputs=outputs
+    )
 
     # compile model
     model.compile(
@@ -108,6 +132,7 @@ if __name__ == "__main__":
 
     # ----- FINE TUNE ---- #
     # re-build model
+
 
     # re-compile model
 

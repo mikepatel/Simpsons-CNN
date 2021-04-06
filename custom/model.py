@@ -42,7 +42,8 @@ def build_model(num_classes):
     x = block(x, filters=64)
     x = block(x, filters=128)
     x = tf.keras.layers.Flatten()(x)
-    x = tf.keras.layers.Dense(units=256, activation=tf.keras.activations.relu)(x)
+    #x = tf.keras.layers.GlobalAveragePooling2D()(x)
+    x = tf.keras.layers.Dense(units=128, activation=tf.keras.activations.relu)(x)
     x = tf.keras.layers.Dropout(rate=0.5)(x)
     x = tf.keras.layers.Dense(units=num_classes, activation=tf.keras.activations.softmax)(x)
     outputs = x

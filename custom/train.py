@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     # image generators
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
-        rescale=1./255,
+        rescale=1./255.0,
         #rotation_range=30,
         #horizontal_flip=True,
         #vertical_flip=True,
@@ -111,6 +111,7 @@ if __name__ == "__main__":
 
     plt.savefig(os.path.join(SAVE_DIR, "plots"))
 
+    quit()
     # ----- SAVE ----- #
     # save model
     model.save(SAVE_DIR)

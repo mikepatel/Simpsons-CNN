@@ -16,6 +16,70 @@ from packages import *
 
 ################################################################################
 def build_model(num_classes):
+    vgg16 = tf.keras.applications.vgg16.VGG16(
+        input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS),
+        include_top=False
+    )
+
+    for layer in vgg16.layers:
+        layer.trainable = False
+
+    model = tf.keras.Sequential()
+    model.add(vgg16)
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Dense(units=1024, activation="relu"))
+    model.add(tf.keras.layers.Dense(units=num_classes, activation="softmax"))
+
+    return model
+
+    """
+    model = tf.keras.Sequential()
+
+    model.add(tf.keras.layers.Conv2D(
+        filters=32,
+        kernel_size=3,
+        input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS),
+        padding="same",
+        activation="relu"
+    ))
+    model.add(tf.keras.layers.MaxPool2D(
+        pool_size=2
+    ))
+    model.add(tf.keras.layers.Dropout(rate=0.5))
+
+    model.add(tf.keras.layers.Conv2D(
+        filters=64,
+        kernel_size=3,
+        padding="same",
+        activation="relu"
+    ))
+    model.add(tf.keras.layers.MaxPool2D(
+        pool_size=2
+    ))
+    model.add(tf.keras.layers.Dropout(rate=0.5))
+
+    model.add(tf.keras.layers.Conv2D(
+        filters=128,
+        kernel_size=3,
+        padding="same",
+        activation="relu"
+    ))
+    model.add(tf.keras.layers.MaxPool2D(
+        pool_size=2
+    ))
+    model.add(tf.keras.layers.Dropout(rate=0.5))
+
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Dense(units=128, activation="relu"))
+    model.add(tf.keras.layers.Dropout(rate=0.5))
+    model.add(tf.keras.layers.Dense(units=64, activation="relu"))
+    model.add(tf.keras.layers.Dropout(rate=0.5))
+    model.add(tf.keras.layers.Dense(units=num_classes, activation="softmax"))
+
+    return model
+    """
+
+    """
     def block(t, filters):
         t = tf.keras.layers.Conv2D(
             filters=filters,
@@ -33,7 +97,7 @@ def build_model(num_classes):
             pool_size=[2, 2],
             strides=2
         )(t)
-        t = tf.keras.layers.Dropout(rate=0.2)(t)
+        #t = tf.keras.layers.Dropout(rate=0.2)(t)
         return t
 
     inputs = tf.keras.Input(shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS))
@@ -44,7 +108,7 @@ def build_model(num_classes):
     x = tf.keras.layers.Flatten()(x)
     #x = tf.keras.layers.GlobalAveragePooling2D()(x)
     x = tf.keras.layers.Dense(units=128, activation=tf.keras.activations.relu)(x)
-    x = tf.keras.layers.Dropout(rate=0.5)(x)
+    #x = tf.keras.layers.Dropout(rate=0.5)(x)
     x = tf.keras.layers.Dense(units=num_classes, activation=tf.keras.activations.softmax)(x)
     outputs = x
 
@@ -53,3 +117,4 @@ def build_model(num_classes):
         outputs=outputs
     )
     return model
+    """

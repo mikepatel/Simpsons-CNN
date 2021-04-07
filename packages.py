@@ -12,16 +12,23 @@ File description:
 ################################################################################
 # Imports
 import os
+import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
+from random import shuffle
+import glob
+import imageio
+from PIL import Image, ImageDraw, ImageFont
 
 
 ################################################################################
 # directories
 BASE_DIR = os.getcwd()
 DATA_DIR = os.path.join(BASE_DIR, "data")
-CUSTOM_DIR = os.path.join(BASE_DIR, "custom")
-SAVE_DIR = os.path.join(CUSTOM_DIR, "saved")
+TRAIN_DIR = os.path.join(DATA_DIR, "train")
+TEST_DIR = os.path.join(DATA_DIR, "test")
+SAVE_DIR = os.path.join(BASE_DIR, "saved")
+PREDICTIONS_DIR = os.path.join(SAVE_DIR, "predictions")
 
 # image dimensions
 IMAGE_WIDTH = 64

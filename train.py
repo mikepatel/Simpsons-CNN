@@ -23,9 +23,13 @@ if __name__ == "__main__":
     if not os.path.exists(SAVE_DIR):
         os.makedirs(SAVE_DIR)
 
+    # create a predictions directory
+    if not os.path.exists(PREDICTIONS_DIR):
+        os.makedirs(PREDICTIONS_DIR)
+
     # ----- ETL ----- #
     # get labels
-    character_directories = os.listdir(DATA_DIR)
+    character_directories = os.listdir(TRAIN_DIR)
     num_classes = len(character_directories)
     #print(f'Number of classes: {num_classes}')
 
@@ -35,6 +39,14 @@ if __name__ == "__main__":
         with open(labels_filepath, "w") as f:
             for d in character_directories:
                 f.write(d + "\n")
+
+    # create mapping between integer and class label
+    int2label = {}
+    for i in range(num_classes):
+        name = character_directories[i]
+        name = name.replace("_simpson", "")
+        name = name.upper()
+        int2label[i] = name
 
     # image generators
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
@@ -49,14 +61,14 @@ if __name__ == "__main__":
     )
 
     train_generator = datagen.flow_from_directory(
-        directory=DATA_DIR,
+        directory=TRAIN_DIR,
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
         batch_size=BATCH_SIZE,
         subset="training"
     )
 
     val_generator = datagen.flow_from_directory(
-        directory=DATA_DIR,
+        directory=TRAIN_DIR,
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
         batch_size=BATCH_SIZE,
         subset="validation"
@@ -110,12 +122,85 @@ if __name__ == "__main__":
     plt.xlabel('epoch')
 
     plt.savefig(os.path.join(SAVE_DIR, "plots"))
-
-    quit()
     # ----- SAVE ----- #
     # save model
     model.save(SAVE_DIR)
 
+    # ----- TEST ----- #
+    # make gif using test set
+    image_files_pattern = TEST_DIR + "\\*.jpg"
+    filenames = glob.glob(image_files_pattern)
+
+    for f in filenames:
+        image = Image.open(f)
+        original_image = image
+
+        # resize image
+        image = image.resize(size=(IMAGE_WIDTH, IMAGE_HEIGHT))
+
+        # normalize image
+        image = np.array(image).astype(np.float32) / 255.0
+
+        # reshape: (1, IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS)
+        image = np.expand_dims(image, axis=0)
+
+        # model prediction
+        prediction = model.predict(image)
+
+        # create prediction text
+        text = []
+        for i in range(num_classes):
+            x = {
+                "name": int2label[i],
+                "value": prediction[0][i]
+            }
+            text.append(x)
+
+        # sort predictions in descending order
+        text = sorted(text, key=lambda i: (i["value"]), reverse=True)
+
+        # build prediction text block
+        z = []
+        for i in text:
+            x = f'{i["name"]}: {i["value"]:.4f}'
+            z.append(x)
+
+        z = "\n".join(z)
+
+        # write prediction text over image
+        # image filename
+        name = f.split("\\")[-1]
+
+        draw = ImageDraw.Draw(original_image)
+        font = ImageFont.truetype("arial.ttf", 10)
+        draw.text((0, 0), z, font=font)
+        original_image.save(PREDICTIONS_DIR + "\\pred_" + name)
+
+    # create gif
+    gif_filename = os.path.join(PREDICTIONS_DIR, "predictions.gif")
+
+    # get all predicted images
+    image_files_pattern = PREDICTIONS_DIR + "\\*.jpg"
+    filenames = glob.glob(image_files_pattern)
+
+    # shuffle filenames
+    shuffle(filenames)
+
+    # write all images to gif
+    with imageio.get_writer(gif_filename, mode="I", fps=0.8) as writer:  # "I" for multiple images
+        for f in filenames:
+            image = imageio.imread(f)
+            writer.append_data(image)
+
+    quit()
+    # delete all individual predicted images
+    for f in filenames:
+        if f.endswith(".jpg"):
+            os.remove(f)
+
+    quit()
+
+    """
     # ----- DEPLOY ----- #
     # convert model to TF Lite
     converter = tf.lite.TFLiteConverter.from_saved_model(SAVE_DIR)
@@ -123,3 +208,4 @@ if __name__ == "__main__":
 
     with open(os.path.join(SAVE_DIR, 'model.tflite'), 'wb') as f:
         f.write(tflite_model)
+    """

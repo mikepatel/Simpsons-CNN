@@ -15,5 +15,13 @@
 ### To run trained model
 
 ## Results
-< insert gif >
-< insert plots >
+![gif](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/predictions/predictions.gif)
+
+| Image | Prediction |
+:------:|:-----------:
+![](https://github.com/mikepatel/Simpsons-CNN/blob/master/data/test/bart_simpson_25.jpg) | ![](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/predictions/pred_bart_simpson_25.jpg)
+![](https://github.com/mikepatel/Simpsons-CNN/blob/master/data/test/homer_simpson_13.jpg) | ![](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/predictions/pred_homer_simpson_13.jpg)
+![](https://github.com/mikepatel/Simpsons-CNN/blob/master/data/test/homer_simpson_37.jpg) | ![](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/predictions/pred_homer_simpson_37.jpg)
+![](https://github.com/mikepatel/Simpsons-CNN/blob/master/data/test/lisa_simpson_20.jpg) | ![](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/predictions/pred_lisa_simpson_20.jpg)
+
+![training plots](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/plots.png)

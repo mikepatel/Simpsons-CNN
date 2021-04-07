@@ -192,15 +192,13 @@ if __name__ == "__main__":
             image = imageio.imread(f)
             writer.append_data(image)
 
-    quit()
+    """
     # delete all individual predicted images
     for f in filenames:
         if f.endswith(".jpg"):
             os.remove(f)
-
-    quit()
-
     """
+
     # ----- DEPLOY ----- #
     # convert model to TF Lite
     converter = tf.lite.TFLiteConverter.from_saved_model(SAVE_DIR)
@@ -208,4 +206,3 @@ if __name__ == "__main__":
 
     with open(os.path.join(SAVE_DIR, 'model.tflite'), 'wb') as f:
         f.write(tflite_model)
-    """

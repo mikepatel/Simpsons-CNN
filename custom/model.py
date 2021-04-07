@@ -34,6 +34,7 @@ def build_model(num_classes):
     return model
     """
 
+    """
     model = tf.keras.Sequential()
 
     model.add(tf.keras.layers.Conv2D(
@@ -111,9 +112,8 @@ def build_model(num_classes):
     model.add(tf.keras.layers.Dense(units=num_classes, activation="softmax"))
 
     return model
-
-
     """
+
     def block(t, filters):
         t = tf.keras.layers.Conv2D(
             filters=filters,
@@ -128,10 +128,9 @@ def build_model(num_classes):
             activation=tf.keras.activations.relu
         )(t)
         t = tf.keras.layers.MaxPool2D(
-            pool_size=[2, 2],
-            strides=2
+            pool_size=2
         )(t)
-        #t = tf.keras.layers.Dropout(rate=0.2)(t)
+        t = tf.keras.layers.Dropout(rate=0.2)(t)
         return t
 
     inputs = tf.keras.Input(shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS))
@@ -139,10 +138,11 @@ def build_model(num_classes):
     x = block(x, filters=32)
     x = block(x, filters=64)
     x = block(x, filters=128)
+    x = block(x, filters=256)
     x = tf.keras.layers.Flatten()(x)
     #x = tf.keras.layers.GlobalAveragePooling2D()(x)
-    x = tf.keras.layers.Dense(units=128, activation=tf.keras.activations.relu)(x)
-    #x = tf.keras.layers.Dropout(rate=0.5)(x)
+    x = tf.keras.layers.Dense(units=1024, activation=tf.keras.activations.relu)(x)
+    x = tf.keras.layers.Dropout(rate=0.5)(x)
     x = tf.keras.layers.Dense(units=num_classes, activation=tf.keras.activations.softmax)(x)
     outputs = x
 
@@ -151,4 +151,3 @@ def build_model(num_classes):
         outputs=outputs
     )
     return model
-    """

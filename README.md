@@ -10,9 +10,9 @@
 ## File descriptions
 
 ## Instructions
-### Train model
+### To train model
 
-### Use model for inference
+### To run trained model
 
 ## Results
 < insert gif >

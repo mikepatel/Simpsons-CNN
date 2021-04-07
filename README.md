@@ -9,11 +9,6 @@
 
 ## File descriptions
 
-## Instructions
-### To train model
-
-### To run trained model
-
 ## Results
 ![gif](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/predictions/predictions.gif)
 

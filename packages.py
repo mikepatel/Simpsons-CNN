@@ -24,8 +24,8 @@ CUSTOM_DIR = os.path.join(BASE_DIR, "custom")
 SAVE_DIR = os.path.join(CUSTOM_DIR, "saved")
 
 # image dimensions
-IMAGE_WIDTH = 224
-IMAGE_HEIGHT = 224
+IMAGE_WIDTH = 64
+IMAGE_HEIGHT = 64
 IMAGE_CHANNELS = 3
 
 # model and training parameters

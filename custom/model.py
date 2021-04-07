@@ -16,6 +16,7 @@ from packages import *
 
 ################################################################################
 def build_model(num_classes):
+    """
     vgg16 = tf.keras.applications.vgg16.VGG16(
         input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS),
         include_top=False
@@ -31,8 +32,8 @@ def build_model(num_classes):
     model.add(tf.keras.layers.Dense(units=num_classes, activation="softmax"))
 
     return model
-
     """
+
     model = tf.keras.Sequential()
 
     model.add(tf.keras.layers.Conv2D(
@@ -42,11 +43,23 @@ def build_model(num_classes):
         padding="same",
         activation="relu"
     ))
+    model.add(tf.keras.layers.Conv2D(
+        filters=32,
+        kernel_size=3,
+        padding="same",
+        activation="relu"
+    ))
     model.add(tf.keras.layers.MaxPool2D(
         pool_size=2
     ))
-    model.add(tf.keras.layers.Dropout(rate=0.5))
+    model.add(tf.keras.layers.Dropout(rate=0.2))
 
+    model.add(tf.keras.layers.Conv2D(
+        filters=64,
+        kernel_size=3,
+        padding="same",
+        activation="relu"
+    ))
     model.add(tf.keras.layers.Conv2D(
         filters=64,
         kernel_size=3,
@@ -56,8 +69,14 @@ def build_model(num_classes):
     model.add(tf.keras.layers.MaxPool2D(
         pool_size=2
     ))
-    model.add(tf.keras.layers.Dropout(rate=0.5))
+    model.add(tf.keras.layers.Dropout(rate=0.2))
 
+    model.add(tf.keras.layers.Conv2D(
+        filters=128,
+        kernel_size=3,
+        padding="same",
+        activation="relu"
+    ))
     model.add(tf.keras.layers.Conv2D(
         filters=128,
         kernel_size=3,
@@ -67,17 +86,32 @@ def build_model(num_classes):
     model.add(tf.keras.layers.MaxPool2D(
         pool_size=2
     ))
-    model.add(tf.keras.layers.Dropout(rate=0.5))
+    model.add(tf.keras.layers.Dropout(rate=0.2))
+
+    model.add(tf.keras.layers.Conv2D(
+        filters=256,
+        kernel_size=3,
+        padding="same",
+        activation="relu"
+    ))
+    model.add(tf.keras.layers.Conv2D(
+        filters=256,
+        kernel_size=3,
+        padding="same",
+        activation="relu"
+    ))
+    model.add(tf.keras.layers.MaxPool2D(
+        pool_size=2
+    ))
+    model.add(tf.keras.layers.Dropout(rate=0.2))
 
     model.add(tf.keras.layers.Flatten())
-    model.add(tf.keras.layers.Dense(units=128, activation="relu"))
-    model.add(tf.keras.layers.Dropout(rate=0.5))
-    model.add(tf.keras.layers.Dense(units=64, activation="relu"))
-    model.add(tf.keras.layers.Dropout(rate=0.5))
+    model.add(tf.keras.layers.Dense(units=1024, activation="relu"))
+    #model.add(tf.keras.layers.Dropout(rate=0.5))
     model.add(tf.keras.layers.Dense(units=num_classes, activation="softmax"))
 
     return model
-    """
+
 
     """
     def block(t, filters):

@@ -31,8 +31,8 @@ SAVE_DIR = os.path.join(BASE_DIR, "saved")
 PREDICTIONS_DIR = os.path.join(SAVE_DIR, "predictions")
 
 # image dimensions
-IMAGE_WIDTH = 64
-IMAGE_HEIGHT = 64
+IMAGE_WIDTH = 224  # 64
+IMAGE_HEIGHT = 224  # 64
 IMAGE_CHANNELS = 3
 
 # model and training parameters

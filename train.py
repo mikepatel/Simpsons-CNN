@@ -51,12 +51,12 @@ if __name__ == "__main__":
     # image generators
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1./255.0,
-        #rotation_range=30,
-        #horizontal_flip=True,
+        rotation_range=30,
+        horizontal_flip=True,
         #vertical_flip=True,
-        #width_shift_range=0.3,
-        #height_shift_range=0.3,
-        #brightness_range=[0.3, 1.3],
+        width_shift_range=0.3,
+        height_shift_range=0.3,
+        brightness_range=[0.3, 1.3],
         validation_split=VALIDATION_SPLIT
     )
 
@@ -122,6 +122,9 @@ if __name__ == "__main__":
     plt.xlabel('epoch')
 
     plt.savefig(os.path.join(SAVE_DIR, "plots"))
+
+    # ----- FINE TUNE ----- #
+
     # ----- SAVE ----- #
     # save model
     model.save(SAVE_DIR)
@@ -183,7 +186,7 @@ if __name__ == "__main__":
     image_files_pattern = PREDICTIONS_DIR + "\\*.jpg"
     filenames = glob.glob(image_files_pattern)
 
-    # shuffle filenames
+    # shuffle images
     shuffle(filenames)
 
     # write all images to gif

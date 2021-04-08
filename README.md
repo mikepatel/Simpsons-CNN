@@ -19,4 +19,8 @@
 ![](https://github.com/mikepatel/Simpsons-CNN/blob/master/data/test/homer_simpson_37.jpg) | ![](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/predictions/pred_homer_simpson_37.jpg)
 ![](https://github.com/mikepatel/Simpsons-CNN/blob/master/data/test/lisa_simpson_20.jpg) | ![](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/predictions/pred_lisa_simpson_20.jpg)
 
+### Training after 10 epochs
 ![training plots](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/plots.png)
+
+### Training after 10 epochs + 10 epochs of fine-tuning
+![fine_tune](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/plots_finetune.png)

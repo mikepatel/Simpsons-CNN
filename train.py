@@ -51,12 +51,15 @@ if __name__ == "__main__":
     # image generators
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1./255.0,
-        rotation_range=30,
+        rotation_range=45,  # degrees
         horizontal_flip=True,
         #vertical_flip=True,
         width_shift_range=0.3,
         height_shift_range=0.3,
         brightness_range=[0.3, 1.3],
+        shear_range=45,  # degrees
+        zoom_range=[0.5, 1.5],
+        channel_shift_range=100,
         validation_split=VALIDATION_SPLIT
     )
 

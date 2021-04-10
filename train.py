@@ -59,7 +59,7 @@ if __name__ == "__main__":
         brightness_range=[0.3, 1.3],
         shear_range=45,  # degrees
         zoom_range=[0.5, 1.5],
-        channel_shift_range=100,
+        #channel_shift_range=80,
         validation_split=VALIDATION_SPLIT
     )
 
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     inputs = tf.keras.Input(shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS))
     x = inputs
     x = mobilenet(x)
-    x = tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation="relu")(x)
+    x = tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation="relu")(x)
     x = tf.keras.layers.Dropout(rate=0.5)(x)
     x = tf.keras.layers.GlobalAveragePooling2D()(x)
     x = tf.keras.layers.Dense(units=num_classes, activation="softmax")(x)

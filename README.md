@@ -7,9 +7,14 @@
 ## Data
 * The dataset is composed of images of characters from The Simpsons provided by [alexattia](https://www.kaggle.com/alexattia/the-simpsons-characters-dataset)
 
-## File descriptions
+## Methodology
+* Using [ImageDataGenerators](https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator) to augment training data set
+* Using [MobileNetV2](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2) as the base model
+* Using [TensorFlow Lite Converter](https://www.tensorflow.org/lite/convert) to convert trained model for use in an Android app
 
 ## Results
+* Predicted results [here](https://github.com/mikepatel/Simpsons-CNN/tree/master/saved/predictions)
+
 ![gif](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/predictions/predictions.gif)
 
 | Image | Prediction |

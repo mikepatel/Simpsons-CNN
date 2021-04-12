@@ -13,8 +13,6 @@
 * Using [TensorFlow Lite Converter](https://www.tensorflow.org/lite/convert) to convert trained model for use in an Android app
 
 ## Results
-* Predicted results [here](https://github.com/mikepatel/Simpsons-CNN/tree/master/saved/predictions)
-
 ![gif](https://github.com/mikepatel/Simpsons-CNN/blob/master/saved/predictions/predictions.gif)
 
 | Image | Prediction |
